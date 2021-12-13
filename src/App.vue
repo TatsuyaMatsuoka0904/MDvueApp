@@ -21,5 +21,6 @@ export default {
 <style scoped>
 #app {
 	height: 100vh;
+	font-family: "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", メイリオ, Meiryo, "ＭＳ Ｐゴシック", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 </style>
