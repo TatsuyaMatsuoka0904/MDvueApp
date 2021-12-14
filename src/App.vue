@@ -8,6 +8,7 @@
 <script>
 import NavigationBar from './components/NavigationBar.vue'
 import MainPage from './components/MainPage.vue'
+require("./js/fontawesome")
 
 export default {
 	name: 'App',
