@@ -8,6 +8,7 @@
 <script>
 import NavigationBar from './components/NavigationBar.vue'
 import MainPage from './components/MainPage.vue'
+require("./js/fontawesome")
 
 export default {
 	name: 'App',
@@ -20,7 +21,7 @@ export default {
 
 <style scoped>
 #app {
-	height: 100vh;
+	/* height: 100vh; */
 	font-family: "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", メイリオ, Meiryo, "ＭＳ Ｐゴシック", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 </style>
