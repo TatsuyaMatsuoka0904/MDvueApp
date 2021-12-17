@@ -1,10 +1,30 @@
 <template>
-  <div class="note">
+    <div class="note"
+        @mouseover="onMouseOver"
+        @mouseleave="onMouseLeave"
+        v-bind:class="{ mouseover: note.mouseover }"
+    >
     <div class="note-icon">
-      <i class="fas fa-file-alt"></i>
+        <i class="fas fa-file-alt"></i>
     </div>
     <div class="note-name">{{note.name}}</div>
-  </div>
+
+    <div v-show="note.mouseover" class="buttons">
+        <div class="buton-icon">
+            <i class="fas fa-sitemap"></i>
+        </div>
+        <div class="buton-icon">
+            <i class="fas fa-plus-circle"></i>
+        </div>
+        <div class="buton-icon">
+            <i class="fas fa-edit"></i>
+        </div>
+        <div class="buton-icon">
+            <i class="fas fa-trash"></i>
+        </div>
+    </div>
+    
+    </div>
 </template>
 
 <script>
@@ -13,6 +33,14 @@ export default {
   props: [
     'note',
   ],
+  methods: {
+      onMouseOver() {
+          this.note.mouseover = true
+      },
+      onMouseLeave() {
+          this.note.mouseover = false 
+      }
+  }
 }
 </script>
 
@@ -23,12 +51,25 @@ export default {
   align-items: center;
   padding: 5px;
   color: rgba(25, 23, 17, 0.6);
-  .note-icon {
+}
+.mouseover {
+    background-color: gray;
+    cursor: pointer;
+}
+.note-icon {
     margin-left: 10px;
-  }
-  .note-name {
+}
+.note-name {
     width: 100%;
     padding: 3px 10px;
-  }
+}
+.buttons {
+    display: flex;
+    flex-direction: row;
+}
+.buton-icon {    
+    padding: 3px;
+    margin-left: 4px;
+    border-radius: 5px;
 }
 </style>

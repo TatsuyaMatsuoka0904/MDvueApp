@@ -33,6 +33,7 @@ export default {
             this.noteList.push({
                 id: new Date().getTime().toString(16),
                 name : 'New Note',
+                mouseover: false
             })
         }
     },
