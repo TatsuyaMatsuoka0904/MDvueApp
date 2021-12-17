@@ -19,7 +19,7 @@
         <div class="buton-icon">
             <i class="fas fa-edit"></i>
         </div>
-        <div class="buton-icon">
+        <div @click="onClickDelete(note)" class="buton-icon">
             <i class="fas fa-trash"></i>
         </div>
     </div>
@@ -39,7 +39,11 @@ export default {
       },
       onMouseLeave() {
           this.note.mouseover = false 
+      },
+      onClickDelete(note){
+          this.$emit('delete',note)
       }
+
   }
 }
 </script>
