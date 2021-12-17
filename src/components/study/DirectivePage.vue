@@ -1,12 +1,36 @@
 <template>
     <div class="directive-page">
-        <h2>学習１:双方向バインディング</h2>
+        <h2>学習2:双方向バインディング</h2>
+        <h3><span class="badge badge-secondary">JavaScript</span></h3>
+        <input id="check" type="checkbox" checked="checked">
+        <span id="text">[Javascript] if checked success</span>
+        <br>
+        <br>
+        <h3><span class="badge badge-secondary">Vue.js</span></h3>
+        <input type="checkbox" v-model="checked">
+        <span v-show="checked">[Vue] if checked success</span>
     </div>
 </template>
 
 <script>
+window.onload = function() {
+    const checkbox = document.getElementById('check')
+    checkbox.onchange = function(event) {
+        const checked = event.target.checked
+        const text = document.getElementById('text')
+        if (checked) {
+            text.style.visibility = 'visible'
+        } else {
+            text.style.visibility = 'hidden'
+        }
+   }
+}
 export default {
-    
+    data (){
+        return {
+            checked: true
+        }
+    }
 }
 </script>
 

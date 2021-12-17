@@ -9,7 +9,7 @@
         <br>
         
         <h3><span class="badge badge-secondary">Vue.js</span></h3>
-        <input class='form-control' v-model="name">
+        <input v-model="name" class='form-control' >
         <span>{{ name }}</span>
     </div>
 </template>
