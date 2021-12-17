@@ -1,15 +1,12 @@
 <template>
 	<div class="main-page">
         <div class="left-menu">
-        
-            <div class="note" v-for="note in noteList" v-bind:key="note.id">
-                <div class="note-icon">
-                    <i class="fas fa-file-alt"></i>
-                </div>
-                <div class="note-name">
-                    {{ note.name }}
-                </div>
-            </div>
+
+            <NoteItem
+             v-for="note in noteList"
+             v-bind:note="note"
+             v-bind:key="note.id"
+            />
 
             <button @click="onClickButtonAdd" class="transparent">
                 <i class="fas fa-plus-square"></i>ノートを追加
@@ -23,6 +20,8 @@
 </template>
 
 <script>
+import NoteItem from './parts/NoteItem.vue'
+
 export default {
 	data() {
         return{
@@ -36,7 +35,10 @@ export default {
                 name : 'New Note',
             })
         }
-    }
+    },
+    components:{
+        NoteItem
+    },
 }
 </script>
 
@@ -58,20 +60,7 @@ button.transparent {
     background: transparent;
     border: none;
 }
-.note {
-    margin: 10px 0;
-    display: flex;
-    align-items: center;
-    padding: 5px;
-    color: rgba(25, 23, 17, 0.6);
-}
-.note-icon {
-    margin-left: 10px;
-}
-.note-name {
-    width: 100%;
-    padding: 3px 10px;
-}
+
 
 </style>
 
