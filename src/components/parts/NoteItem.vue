@@ -1,4 +1,5 @@
 <template>
+<div class="note-family">
     <div class="note"
         @mouseover="onMouseOver"
         @mouseleave="onMouseLeave"
@@ -14,7 +15,7 @@
     <div class="note-name">{{note.name}}</div>
 
     <div v-show="note.mouseover" class="buttons">
-        <div class="button-icon">
+        <div @click="onClickChildNote(note)" class="button-icon">
             <i class="fas fa-sitemap"></i>
         </div>
         <div class="butotn-icon">
@@ -29,6 +30,18 @@
     </div>
     </template>
     </div>
+    <div class="child-note">
+        <NoteItem
+        v-for="childNote in note.children"
+        v-bind:note="childNote"
+        v-bind:key="childNote.id"
+        @delete="onClickDelete"
+        @editStart="onClickEdit"
+        @editEnd="onEditEnd"
+        @addChild="onClickChildNote"
+        />
+    </div>
+</div>
 </template>
 
 <script>
@@ -52,6 +65,9 @@ export default {
       },
       onEditEnd(){
           this.$emit('editEnd')
+      },
+      onClickChildNote(note){
+          this.$emit('addChild', note)
       }
 
   }
@@ -85,6 +101,9 @@ export default {
     padding: 3px;
     margin-left: 4px;
     border-radius: 5px;
+}
+.child-note {
+    padding-left: 10px;
 }
 
 </style>
