@@ -2,28 +2,32 @@
     <div class="note"
         @mouseover="onMouseOver"
         @mouseleave="onMouseLeave"
-        v-bind:class="{ mouseover: note.mouseover }"
+        v-bind:class="{ mouseover: note.mouseover && !note.editing }"
     >
+    <template v-if="note.editing">
+        <input v-model="note.name" class="transparent" @keypress.enter="onEditEnd" />
+    </template>
+    <template v-else>
     <div class="note-icon">
         <i class="fas fa-file-alt"></i>
     </div>
     <div class="note-name">{{note.name}}</div>
 
     <div v-show="note.mouseover" class="buttons">
-        <div class="buton-icon">
+        <div class="button-icon">
             <i class="fas fa-sitemap"></i>
         </div>
-        <div class="buton-icon">
+        <div class="butotn-icon">
             <i class="fas fa-plus-circle"></i>
         </div>
-        <div class="buton-icon">
+        <div @click="onClickEdit(note)" class="button-icon">
             <i class="fas fa-edit"></i>
         </div>
-        <div @click="onClickDelete(note)" class="buton-icon">
+        <div @click="onClickDelete(note)" class="button-icon">
             <i class="fas fa-trash"></i>
         </div>
     </div>
-    
+    </template>
     </div>
 </template>
 
@@ -42,6 +46,12 @@ export default {
       },
       onClickDelete(note){
           this.$emit('delete',note)
+      },
+      onClickEdit(note){
+          this.$emit('editStart', note)
+      },
+      onEditEnd(){
+          this.$emit('editEnd')
       }
 
   }
@@ -57,7 +67,7 @@ export default {
   color: rgba(25, 23, 17, 0.6);
 }
 .mouseover {
-    background-color: gray;
+    background-color: rgb(248, 218, 218);
     cursor: pointer;
 }
 .note-icon {
@@ -71,9 +81,10 @@ export default {
     display: flex;
     flex-direction: row;
 }
-.buton-icon {    
+.button-icon {    
     padding: 3px;
     margin-left: 4px;
     border-radius: 5px;
 }
+
 </style>

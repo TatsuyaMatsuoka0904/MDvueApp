@@ -1,12 +1,14 @@
 <template>
 	<div class="main-page">
-        <div class="left-menu">
+        <div @click.self="onEditNoteEnd()" class="left-menu">
 
             <NoteItem
              v-for="note in noteList"
              v-bind:note="note"
              v-bind:key="note.id"
              @delete="onDeleteNote"
+             @editStart="onEditNoteStart"
+             @editEnd="onEditNoteEnd"
             />
 
             <button @click="onClickButtonAdd" class="transparent">
@@ -14,7 +16,7 @@
             </button>
         </div>
 
-        <div class="right-view">
+        <div @click.self="onEditNoteEnd()" class="right-view">
             右メニュー
         </div>
     </div>
@@ -34,12 +36,23 @@ export default {
             this.noteList.push({
                 id: new Date().getTime().toString(16),
                 name : 'New Note',
-                mouseover: false
+                mouseover: false,
+                editing: false,
             })
         },
         onDeleteNote(deleteNote){
             const index = this.noteList.indexOf(deleteNote)
             this.noteList.splice(index,1)
+        },
+        onEditNoteStart(editNote) {
+            for (let note of this.noteList) {
+                note.editing = (note.id === editNote.id)
+            }
+        },
+        onEditNoteEnd(){
+            for (let note of this.noteList) {
+                note.editing = false
+            }
         }
     },
     components:{
