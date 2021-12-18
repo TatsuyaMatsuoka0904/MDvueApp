@@ -48,16 +48,22 @@ export default {
             const index = targetList.indexOf(note)
             targetList.splice(index,1)
         },
-        onEditNoteStart(editNote) {
-            for (let note of this.noteList) {
+
+        onEditNoteStart(editNote,parentNote) {
+            const targetList = parentNote == null ? this.noteList : parentNote.children
+            for (let note of targetList) {
                 note.editing = (note.id === editNote.id)
+                this.onEditNoteStart(editNote, note)
             }
         },
-        onEditNoteEnd(){
-            for (let note of this.noteList) {
+        onEditNoteEnd(parentNote){
+            const targetList = parentNote == null ? this.noteList : parentNote.children
+            for (let note of targetList) {
                 note.editing = false
+                this.onEditNoteEnd(note)
             }
         },
+
         onAddChildNote(note){
             note.children.push({
                 id: new Date().getTime.toString(16),
