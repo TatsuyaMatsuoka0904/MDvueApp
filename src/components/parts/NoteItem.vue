@@ -24,7 +24,7 @@
         <div @click="onClickEdit(note)" class="button-icon">
             <i class="fas fa-edit"></i>
         </div>
-        <div @click="onClickDelete(note)" class="button-icon">
+        <div @click="onClickDelete(parentNote,note)" class="button-icon">
             <i class="fas fa-trash"></i>
         </div>
     </div>
@@ -34,6 +34,7 @@
         <NoteItem
         v-for="childNote in note.children"
         v-bind:note="childNote"
+        v-bind:parentNote="note"
         v-bind:key="childNote.id"
         @delete="onClickDelete"
         @editStart="onClickEdit"
@@ -49,6 +50,7 @@ export default {
   name: 'NoteItem',
   props: [
     'note',
+    'parentNote'
   ],
   methods: {
       onMouseOver() {
@@ -57,8 +59,8 @@ export default {
       onMouseLeave() {
           this.note.mouseover = false 
       },
-      onClickDelete(note){
-          this.$emit('delete',note)
+      onClickDelete(parentNote,note){
+          this.$emit('delete', parentNote, note);
       },
       onClickEdit(note){
           this.$emit('editStart', note)
