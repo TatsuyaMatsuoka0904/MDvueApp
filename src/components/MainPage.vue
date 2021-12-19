@@ -11,6 +11,7 @@
              @editStart="onEditNoteStart"
              @editEnd="onEditNoteEnd"
              @addChild="onAddChildNote"
+             @addNoteAfter="onAddNoteAfter"
             />
 
             <button @click="onClickButtonAdd" class="transparent">
@@ -34,15 +35,25 @@ export default {
         }
     },
     methods: {
+        onAddNoteCommom(targetList,layer,index){
+            layer = layer || 1
+            const note = {
+                id :new Date().getTime().toString(16),
+                name : `NewNote-${layer}-${targetList.length}`,
+                mouseover : false,
+                editing : false,
+                children : [],
+                layer : layer,
+            }
+            if (index == null){
+                targetList.push(note)
+            } else {
+                targetList.splice(index+1, 0, note);
+            }
+        },
+        
         onClickButtonAdd(){
-            this.noteList.push({
-                id: new Date().getTime().toString(16),
-                name : 'New Note',
-                mouseover: false,
-                editing: false,
-                children: [],
-
-            })
+            this.onAddNoteCommom(this.noteList)
         },
         onDeleteNote(parentNote,note){
             const targetList = parentNote == null ? this.noteList : parentNote.children
@@ -66,13 +77,13 @@ export default {
         },
 
         onAddChildNote(note){
-            note.children.push({
-                id: new Date().getTime.toString(16),
-                name: note.name + 'Childlen',
-                mouseover: false,
-                editing: false,
-                children: [],
-            })
+            this.onAddNoteCommom(note.children, note.layer+1)
+        },
+        onAddNoteAfter(parentNote,note) {
+            const targetList = parentNote == null ? this.noteList :parentNote.children
+            const layer = parentNote == null
+            const index = targetList.indexOf(note)
+            this.onAddNoteCommom(targetList,layer,index)
         }
     },
     components:{
