@@ -10,7 +10,8 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.4",
     "core-js": "^3.6.5",
-    "vue-router": "^3.5.3"
+    "vue-router": "^3.5.3",
+    "vuedraggable": "^2.24.3"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

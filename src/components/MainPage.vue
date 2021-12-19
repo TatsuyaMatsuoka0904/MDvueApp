@@ -1,7 +1,7 @@
 <template>
 	<div class="main-page">
         <div @click.self="onEditNoteEnd()" class="left-menu">
-
+            <draggable v-bind:list="noteList" group="notes">
             <NoteItem
              v-for="note in noteList"
              v-bind:note="note"
@@ -13,6 +13,7 @@
              @addChild="onAddChildNote"
              @addNoteAfter="onAddNoteAfter"
             />
+            </draggable>
 
             <button @click="onClickButtonAdd" class="transparent">
                 <i class="fas fa-plus-square"></i>ノートを追加
@@ -25,8 +26,10 @@
     </div>
 </template>
 
+
 <script>
 import NoteItem from './parts/NoteItem.vue'
+import draggable from 'vuedraggable'
 
 export default {
 	data() {
@@ -87,7 +90,8 @@ export default {
         }
     },
     components:{
-        NoteItem
+        NoteItem,
+        draggable,
     },
 }
 </script>
