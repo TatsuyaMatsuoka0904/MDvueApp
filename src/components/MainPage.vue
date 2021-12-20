@@ -33,6 +33,18 @@
                     <h3 class="note-title">
                         {{ selectedNote.name }}
                     </h3>
+                    <WidgetItem
+                    v-for="widget in selectedNote.widgetList"
+                    v-bind:widget="widget"
+                    v-bind:layer="1"
+                    v-bind:key="widget.id"
+                    @delete="onDeleteWidget"
+                    @addChild="onAddChildWidget"
+                    @addWidgetAfter="onAddWidgetAfter"
+                    />
+                    <button class="transparent" @click="onClickButtonAddWidget">
+                        <i class="fas fa-plus-square"></i>ウィジェットを追加
+                    </button>
                 </div>
             </template>
         </div>
@@ -43,6 +55,7 @@
 <script>
 import NoteItem from './parts/NoteItem.vue'
 import draggable from 'vuedraggable'
+import WidgetItem from './parts/WidgetItem.vue'
 
 export default {
 	data() {
@@ -52,23 +65,63 @@ export default {
         }
     },
     methods: {
-        onAddNoteCommom(targetList,layer,index){
+
+        onAddNoteCommom(targetList,layer,index) {
             layer = layer || 1
-            const note = {
-                id :new Date().getTime().toString(16),
-                name : `NewNote-${layer}-${targetList.length}`,
+            const widget = {
+                id : new Date().getTime().toString(16),
+                type : 'heading',
+                text : '',
                 mouseover : false,
-                editing : false,
-                selected :false,
+                children : [],
+                layer : layer,
+                widgetList : [],
+            }
+            // this.onAddWidgetCommon(note.widgetList);
+            if (index == null){
+                targetList.push(widget)
+            } else {
+                targetList.splice(index+1,0,widget)
+            }
+        },
+
+        onAddWidgetCommon(targetList, layer, index){
+            layer = layer || 1
+            const widget = {
+                id : new Date().getTime().toString(16),
+                type : 'heading',
+                text : '',
+                mouseover : false,
                 children : [],
                 layer : layer,
             }
             if (index == null){
-                targetList.push(note)
+                targetList.push(widget)
             } else {
-                targetList.splice(index+1, 0, note);
+                targetList.splice(index+1, 0, widget)
             }
         },
+
+
+        onClickButtonAddWidget() {
+            this.onAddWidgetCommon(this.selectedNote.widgetList)
+        },
+        onAddChildWidget(widget){
+            this.onAddWidgetCommon(widget.children, widget.layer + 1)
+        },
+        onAddWidgetAfter(parentWidget, note){
+            const targetList = parentWidget == null ? this.selectedNote.widgetList : parentWidget.children
+            const layer = parentWidget == null ? null: parentWidget.layer + 1
+            const index = targetList.indexOf(note)
+            this.onAddWidgetCommon(targetList, layer, index)
+        },
+        onDeleteWidget(parentWidget,widget){
+            const targetList = parentWidget == null ? this.selectedNote.widgetList : parentWidget.children
+            const index = targetList.indexOf(widget)
+            targetList.splice(index,1)
+        },
+
+
         
         onClickButtonAdd(){
             this.onAddNoteCommom(this.noteList)
@@ -88,6 +141,7 @@ export default {
             updateSelectStatus(targetNote,this.noteList)
             this.selectedNote = targetNote
         },
+
 
         onEditNoteStart(editNote,parentNote) {
             const targetList = parentNote == null ? this.noteList : parentNote.children
@@ -133,6 +187,7 @@ export default {
     components:{
         NoteItem,
         draggable,
+        WidgetItem
     },
 }
 </script>
