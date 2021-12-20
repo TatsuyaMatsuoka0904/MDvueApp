@@ -3,7 +3,8 @@
     <div class="note"
         @mouseover="onMouseOver"
         @mouseleave="onMouseLeave"
-        v-bind:class="{ mouseover: note.mouseover && !note.editing }"
+        @click="onSelect(note)"
+        v-bind:class="{ mouseover: note.mouseover && !note.editing, selected: note.selected }"
     >
     <template v-if="note.editing">
         <input v-model="note.name" class="transparent" @keypress.enter="onEditEnd" />
@@ -38,6 +39,7 @@
         v-bind:layer="layer + 1"
         v-bind:parentNote="note"
         v-bind:key="childNote.id"
+        @select="onSelect"
         @delete="onClickDelete"
         @editStart="onClickEdit"
         @editEnd="onEditEnd"
@@ -69,6 +71,9 @@ export default {
       },
       onMouseLeave() {
           this.note.mouseover = false 
+      },
+      onSelect(note) {
+          this.$emit('select',note)
       },
       onClickDelete(parentNote,note){
           this.$emit('delete', parentNote, note);
@@ -118,6 +123,11 @@ export default {
     margin-left: 4px;
     border-radius: 5px;
 }
+.selected {
+    color: black;
+    background-color: rgb(232, 231, 228);
+    font-weight: 600;
+  }
 .child-note {
     padding-left: 10px;
 }
